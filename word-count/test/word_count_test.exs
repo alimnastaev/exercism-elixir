@@ -1,6 +1,5 @@
 defmodule WordCountTest do
   use ExUnit.Case
-  ExUnit.configure exclude: :pending, trace: true
 
   test "count one word" do
     assert WordCount.count("word") == %{"word" => 1}
