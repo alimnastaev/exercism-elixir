@@ -27,7 +27,8 @@ defmodule Bob do
   end
 
   defp question?(input) do
-    ttt = String.trim(input)
-    String.ends_with?(ttt, "?")
+    input
+    |> String.trim()
+    |> String.ends_with?("?")
   end
 end
