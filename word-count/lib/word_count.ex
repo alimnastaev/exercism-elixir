@@ -6,10 +6,8 @@ defmodule WordCount do
   """
   def count(sentence) do
     sentence
-    |> String.replace(~r/[:,.!&@$%^&_]/, " ")
     |> String.downcase()
-    |> String.split()
-    # |> Enum.reduce(%{}, fn word, map -> Map.update(map, word, 1, &(&1 + 1)) end)
-    |> Enum.reduce(%{}, fn word, map -> Map.update(map, word, 1, fn value -> value + 1 end) end)
+    |> String.split(~r/[^\p{L}\d-]+/u, trim: true)
+    |> Enum.reduce(%{}, fn word, map -> Map.update(map, word, 1, &(&1 + 1)) end)
   end
 end
