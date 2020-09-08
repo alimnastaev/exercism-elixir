@@ -5,11 +5,11 @@ defmodule SumOfMultiples do
   def to(limit, factors), do: sum(limit, factors)
 
   defp sum(limit, factors) do
-    for number <- 0..(limit - 1), parse(number, factors), reduce: 0 do
+    for number <- 0..(limit - 1), is_multiple?(number, factors), reduce: 0 do
       acc -> number + acc
     end
   end
 
-  defp parse(number, factors),
+  defp is_multiple?(number, factors),
     do: Enum.any?(factors, fn factor -> rem(number, factor) == 0 end)
 end
