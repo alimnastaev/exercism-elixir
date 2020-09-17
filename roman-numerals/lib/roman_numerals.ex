@@ -1,5 +1,5 @@
 defmodule RomanNumerals do
-  @decimal_to_roman [
+  @integer_to_roman [
     {1000, "M"},
     {900, "CM"},
     {500, "D"},
@@ -19,14 +19,10 @@ defmodule RomanNumerals do
   Convert the number to a roman number.
   """
   @spec numeral(pos_integer) :: String.t()
-  def numeral(number) do
-    _numeral(number, "")
-  end
-
-  defp _numeral(0, acc), do: acc
-
-  defp _numeral(number, acc) do
-    {decimal, roman} = @decimal_to_roman |> Enum.find(fn {decimal, _} -> decimal <= number end)
-    _numeral(number - decimal, acc <> roman)
+  def numeral(number, acc \\ "") do
+    case @integer_to_roman |> Enum.find(fn {integer, _} -> integer <= number end) do
+      {integer, roman_string} -> numeral(number - integer, acc <> roman_string)
+      _ -> acc
+    end
   end
 end
