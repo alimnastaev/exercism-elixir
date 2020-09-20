@@ -20,23 +20,21 @@ defmodule SecretHandshake do
   def commands(code) do
     array_of_digits = Integer.digits(code, 2) |> Enum.reverse()
 
-    list_of_tuples =
-      Enum.zip([array_of_digits, @handshakes])
+    list_of_tuples = Enum.zip([array_of_digits, @handshakes])
 
-    result =
-      if length(list_of_tuples) == 5 do
-        list_of_tuples |> Enum.reverse()
-      else
-        list_of_tuples
-      end
+    result = reverse?(list_of_tuples)
 
     result
     |> Enum.reduce([], fn {digit, action}, acc ->
-      if digit == 1 and action != "" do
-        acc ++ [action]
-      else
-        acc
-      end
+      collect_actions(digit, action, acc)
     end)
   end
+
+  defp reverse?(list_of_tuples) when length(list_of_tuples) == 5,
+    do: list_of_tuples |> Enum.reverse()
+
+  defp reverse?(list_of_tuples), do: list_of_tuples
+
+  defp collect_actions(digit, action, acc) when digit == 1 and action != "", do: acc ++ [action]
+  defp collect_actions(_, _, acc), do: acc
 end
