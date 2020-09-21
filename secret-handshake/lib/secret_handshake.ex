@@ -1,4 +1,6 @@
 defmodule SecretHandshake do
+  use Bitwise
+
   @doc """
   Determine the actions of a secret handshake based on the binary
   representation of the given `code`.
@@ -13,30 +15,19 @@ defmodule SecretHandshake do
 
   10000 = Reverse the order of the operations in the secret handshake
   """
+  @handshakes [{1, "wink"}, {2, "double blink"}, {4, "close your eyes"}, {8, "jump"}]
 
-  defguard filtering(digit, action) when digit == 1 and action != ""
-
-  @handshakes ["wink", "double blink", "close your eyes", "jump", ""]
-
-  @spec commands(code :: integer) :: list(String.t())
   def commands(code) do
-    array_of_digits = Integer.digits(code, 2) |> Enum.reverse()
-
-    list_of_tuples = Enum.zip([array_of_digits, @handshakes])
-
-    result = reverse?(list_of_tuples)
-
-    result
-    |> Enum.reduce([], fn {digit, action}, acc ->
-      collect_actions(digit, action, acc)
+    @handshakes
+    |> Enum.reduce([], fn {bit, action}, acc ->
+      collect_actions(action, bit, code, acc)
     end)
+    |> reverse?(code)
   end
 
-  defp reverse?(list_of_tuples) when length(list_of_tuples) == 5,
-    do: list_of_tuples |> Enum.reverse()
+  defp collect_actions(_, bit, code, acc) when (bit &&& code) == 0, do: acc
+  defp collect_actions(action, _, _, acc), do: acc ++ [action]
 
-  defp reverse?(list_of_tuples), do: list_of_tuples
-
-  defp collect_actions(digit, action, acc) when filtering(digit, action), do: acc ++ [action]
-  defp collect_actions(_, _, acc), do: acc
+  defp reverse?(result, code) when (code &&& 16) == 0, do: result
+  defp reverse?(result, _), do: result |> Enum.reverse()
 end
