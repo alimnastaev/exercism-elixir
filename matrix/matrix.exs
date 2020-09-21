@@ -20,8 +20,7 @@ defmodule Matrix do
   @spec to_string(matrix :: %Matrix{}) :: String.t()
   def to_string(matrix) do
     matrix
-    |> Enum.map(fn x -> Enum.join(x, " ") end)
-    |> Enum.join("\n")
+    |> Enum.map_join("\n", fn x -> Enum.join(x, " ") end)
   end
 
   @doc """

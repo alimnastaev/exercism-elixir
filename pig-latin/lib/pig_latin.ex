@@ -18,7 +18,7 @@ defmodule PigLatin do
     # to cover a whole phrase
     words = String.split(phrase, " ")
 
-    Enum.map(words, fn word ->
+    Enum.map_join(words, " ", fn word ->
       cond do
         word =~ ~r/^[aeiuo]/ ->
           word <> ending
@@ -44,7 +44,6 @@ defmodule PigLatin do
           middle <> tail <> head <> ending
       end
     end)
-    |> Enum.join(" ")
   end
 
   defp splitted(word, regex) do
