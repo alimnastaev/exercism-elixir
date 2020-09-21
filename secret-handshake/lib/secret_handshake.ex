@@ -14,6 +14,8 @@ defmodule SecretHandshake do
   10000 = Reverse the order of the operations in the secret handshake
   """
 
+  defguard filtering(digit, action) when digit == 1 and action != ""
+
   @handshakes ["wink", "double blink", "close your eyes", "jump", ""]
 
   @spec commands(code :: integer) :: list(String.t())
@@ -35,6 +37,6 @@ defmodule SecretHandshake do
 
   defp reverse?(list_of_tuples), do: list_of_tuples
 
-  defp collect_actions(digit, action, acc) when digit == 1 and action != "", do: acc ++ [action]
+  defp collect_actions(digit, action, acc) when filtering(digit, action), do: acc ++ [action]
   defp collect_actions(_, _, acc), do: acc
 end
