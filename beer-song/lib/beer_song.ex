@@ -30,6 +30,6 @@ defmodule BeerSong do
   Get the entire beer song for a given range of numbers of bottles.
   """
   def lyrics(range \\ 99..0) do
-    Enum.map(range, fn number -> verse(number) end) |> Enum.join("\n")
+    Enum.map_join(range, "\n", fn number -> verse(number) end)
   end
 end
