@@ -9,7 +9,7 @@ defmodule Matrix do
   def from_string(input) do
     input
     |> String.split(~r/[^0-9]/)
-    |> Enum.map(fn x -> x |> String.to_integer() end)
+    |> Enum.map(&String.to_integer/1)
     |> Enum.chunk_every(3)
   end
 
@@ -46,7 +46,7 @@ defmodule Matrix do
   def columns(matrix) do
     matrix
     |> List.zip()
-    |> Enum.map(fn x -> Tuple.to_list(x) end)
+    |> Enum.map(&Tuple.to_list/1)
   end
 
   @doc """
