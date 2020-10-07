@@ -1,5 +1,10 @@
 defmodule Bob do
   def hey(input) do
+    input
+    |> answer()
+  end
+
+  defp answer(input) do
     cond do
       silence?(input) ->
         "Fine. Be that way!"
