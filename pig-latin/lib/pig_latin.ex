@@ -18,32 +18,34 @@ defmodule PigLatin do
     # to cover a whole phrase
     words = String.split(phrase, " ")
 
-    Enum.map_join(words, " ", fn word ->
-      cond do
-        word =~ ~r/^[aeiuo]/ ->
-          word <> ending
+    Enum.map_join(words, " ", fn word -> shape_word(word, ending) end)
+  end
 
-        word =~ ~r/^[xy][^aeiuo]/ ->
-          [_, middle, tail] = splitted(word, ~r/[xy][^aeiou]/)
+  defp shape_word(word, ending) do
+    cond do
+      word =~ ~r/^[aeiuo]/ ->
+        word <> ending
 
-          middle <> tail <> ending
+      word =~ ~r/^[xy][^aeiuo]/ ->
+        [_, middle, tail] = splitted(word, ~r/[xy][^aeiou]/)
 
-        word =~ ~r/squ/ ->
-          [_, middle, tail] = splitted(word, ~r/squ/)
+        middle <> tail <> ending
 
-          tail <> middle <> ending
+      word =~ ~r/squ/ ->
+        [_, middle, tail] = splitted(word, ~r/squ/)
 
-        word =~ ~r/qu/ ->
-          [_, middle, tail] = splitted(word, ~r/qu/)
+        tail <> middle <> ending
 
-          tail <> middle <> ending
+      word =~ ~r/qu/ ->
+        [_, middle, tail] = splitted(word, ~r/qu/)
 
-        true ->
-          [head, middle, tail] = splitted(word, ~r/[aeiuo]/)
+        tail <> middle <> ending
 
-          middle <> tail <> head <> ending
-      end
-    end)
+      true ->
+        [head, middle, tail] = splitted(word, ~r/[aeiuo]/)
+
+        middle <> tail <> head <> ending
+    end
   end
 
   defp splitted(word, regex) do
